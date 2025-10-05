@@ -133,10 +133,20 @@
   </section>
 
   <section>
-    <h2>Chat with my AI assistant!</h2>
-    <div id="chat"></div>
-    <input id="input" placeholder="Ask me anything..." size="50" />
-    <button onclick="sendMessage()">Send</button>
+    <h2 align="center"><b>AI-Gen ChatBot</b></h2>
+    <h3 align="center"><b>Please start your personalized interaction with the chatbot</b></h3>
+    <p align="center"><img src="static\\chatbot1.png" alt="Python-BOT" height="210" width="220"></p>
+    <div class="boxed">
+        <div>
+            <div id="chatbox">
+                <p class="botText">
+                    <span>Hi! I'm your AI-Generative Chatbot</span>
+                </p>
+            </div>
+            <div id="userInput">
+                <input id="textInput" type="text" name="msg" placeholder="Message" />
+            </div>
+        </div>
   
     <script>
     function getBotResponse() {
