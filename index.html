@@ -139,25 +139,27 @@
     <button onclick="sendMessage()">Send</button>
   
     <script>
-      async function sendMessage() {
-        const input = document.getElementById("input");
-        const chat = document.getElementById("chat");
-        const userMessage = input.value.trim();
-        if (!userMessage) return;
-  
-        chat.innerHTML += `<p><b>You:</b> ${userMessage}</p>`;
-        input.value = "";
-  
-        const res = await fetch("/api/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: userMessage })
-        });
-        const data = await res.json();
-  
-        chat.innerHTML += `<p><b>AI:</b> ${data.reply}</p>`;
-        chat.scrollTop = chat.scrollHeight;
-      }
+    function getBotResponse() {
+                  var rawText = $("#textInput").val();
+                  var userHtml = '<p class="userText"><span>' + rawText + "</span></p>";
+                  $("#textInput").val("");
+                  $("#chatbox").append(userHtml);
+                  document
+                      .getElementById("userInput")
+                      .scrollIntoView({ block: "start", behavior: "smooth" });
+                  $.get("/get", { msg: rawText }).done(function (data) {
+                      var botHtml = '<p class="botText"><span>' + data + "</span></p>";
+                      $("#chatbox").append(botHtml);
+                      document
+                          .getElementById("userInput")
+                          .scrollIntoView({ block: "start", behavior: "smooth" });
+                  });
+              }
+              $("#textInput").keypress(function (e) {
+                  if (e.which == 13) {
+                      getBotResponse();
+                  }
+              });
     </script>
   </section>
 
