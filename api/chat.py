@@ -1,28 +1,26 @@
 # api/chat.py
+from flask import Flask, render_template, request
+import openai
 import os
-import json
-from openai import OpenAI
+app = Flask(__name__)
+openai.api_key  = os.getenv("OPENAI_API_KEY")#"<place your openai_api_key>"
 
-def handler(request):
-    if request.method != "POST":
-        return {"statusCode": 405, "body": "Method not allowed"}
-
-    body = json.loads(request.body)
-    user_message = body.get("message", "")
-
-    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": "You are a helpful AI assistant on Pooja Thakur's portfolio website."},
-            {"role": "user", "content": user_message},
-        ]
+def get_completion(prompt, model="gpt-3.5-turbo"):
+    messages = [{"role": "user", "content": prompt}]
+    response = openai.ChatCompletion.create(
+        model=model,
+        messages=messages,
+        temperature=0, # this is the degree of randomness of the model's output
     )
+    return response.choices[0].message["content"]
+@app.route("/")
+def home():    
+    return render_template("index.html")
+@app.route("/get")
+def get_bot_response():    
+    userText = request.args.get('msg')  
+    response = get_completion(userText)  
+    #return str(bot.get_response(userText)) 
+    return response
+if __name__ == "__main__":
 
-    reply = response.choices[0].message.content.strip()
-    return {
-        "statusCode": 200,
-        "headers": {"Content-Type": "application/json"},
-        "body": json.dumps({"reply": reply})
-    }
