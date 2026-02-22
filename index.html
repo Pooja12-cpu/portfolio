@@ -59,6 +59,69 @@
       font-size: 0.9rem;
       color: #555;
     }
+    /* Chat Button */
+    #chatButton {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #807bff;
+      color: white;
+      border: none;
+      border-radius: 58%;
+      width: 60px;
+      height: 60px;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+    }
+    /*Chat Window*/
+    #chatWindow {
+      display: none;
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 380px;
+      background: white;
+      border: 1px solid #ccc;
+      box-shadow: 2px 2px 20px rgba(0,0,0,0.2);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    /* Chat Header */
+    #chatHeader {
+      background: #087bff;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+    }
+    /* Chat Messages */
+    #chatbox {
+      height: 300px;
+      overflow-y: scroll;
+      padding: 10px;
+    }
+    /* Chat Input*/
+    #chatInputContainer {
+      display: flex;
+      border-top: 1px solid #ccc;
+    }
+    #userInput {
+      flex: 1;
+      padding: 10px;
+      border: none;
+    }
+    #sendButton{
+      padding: 10px;
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    /* User and Bot Messages*/
+    .user { text-align: right; color: blue;}
+    .bot {text-align: left; color: green;}
+    
   </style>
 </head>
 <body>
@@ -136,6 +199,44 @@
       <a class="pub" href="https://ieeexplore.ieee.org/document/9915909" target="_blank">View Publication</a>
     </div>
   </section>
+
+  <button id="chatButton" onclick="toggleChat()">&#x1F4AC</button>
+
+  <div id="chatContainer">
+    <div id="chatHeader" onclick="toggleChat()">Chatbot (click to close)</div>
+    <div id="chatbox"></div>
+    <div id="chatInputContainer">
+      <input type="text" id="userInput" placeholder="Type a message.."/>
+      <button id="sendButton" onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    function toggleChat(){
+      let chatContainer = document.getElementById("chatContainer");
+      chatContainer.style.display = (chatContainer.style.display == "none" || chatContainer.style.display == "") ? "block" : "none";
+    }
+
+    function sendMessage(){
+      let userInput = document.getElementById("userInput").value;
+      
+      if (!userInput.trim()) return;
+
+      document.getElementById("chatbox").innerHTML += "<p>You: "+ userInput + "</p>";
+      document.getElementById("userInput").value = "";
+      
+      fetch("get_response", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({message: userInput})
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("chatbox").innerHTML += "<p>Assistant: "+ data.response + "</p>";
+        document.getElementById("chatbox").scrollTop = document.getElementById("chatbox").scrollHeight;
+      });
+    }
+  </script>
 
   <footer>
     © 2025 Pooja Thakur | Portfolio
