@@ -14,7 +14,7 @@ def get_response():
     response = requests.post(
       url="https://openrouter.ai/api/v1/chat/completions",
       headers={
-        "Authorization": "Bearer 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",
+        "Authorization": "Bearer ", #add api key after Bearer
       },
       data=json.dumps({
         "model": "arcee-ai/trinity-large-preview:free", # Optional
@@ -41,6 +41,7 @@ def get_response():
 
 if __name__ == "__main__":
     app.run(debug=False)
+
 
 
 
