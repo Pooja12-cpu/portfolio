@@ -1,20 +1,21 @@
 # api/chat.py
 from flask import Flask, render_template, request, jsonify
 import os
-from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
-app = Flask(__name__)
+import json
+import requests
+app = Flask(__name__, template_folder='templates')
 
 @app.route("/")
 def index():    
     return render_template("index.html")
 
-@app.route("get_response")
+@app.route("/get_response", methods=['POST'])
 def get_response():
-    user_message = request.json('message')
+    user_message = request.json['message']
     response = requests.post(
       url="https://openrouter.ai/api/v1/chat/completions",
       headers={
-        "Authorization": "Bearer ", #add api key after Bearer
+        "Authorization": "Bearer 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",
       },
       data=json.dumps({
         "model": "arcee-ai/trinity-large-preview:free", # Optional
@@ -37,11 +38,9 @@ def get_response():
         ]
       })
     )
-    return jsonify({'response': response})
+    temp = json.loads(response.content.decode('utf-8'))
+    r_response = temp['choices'][0]['message']['content']
+    return jsonify({'response': r_response})
 
 if __name__ == "__main__":
-    app.run(debug=False)
-
-
-
-
+    app.run(debug=True)
