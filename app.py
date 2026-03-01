@@ -43,4 +43,5 @@ def get_response():
     return jsonify({'response': r_response})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+
+    app.run()
