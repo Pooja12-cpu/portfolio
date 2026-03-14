@@ -3,6 +3,8 @@ from flask import Flask, render_template, request, jsonify
 import os
 import json
 import requests
+import logging
+logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__, template_folder='templates')
 api_key = os.environ.get('MY_API_KEY')
 
@@ -41,6 +43,7 @@ def get_response():
     )
     temp = json.loads(response.content.decode('utf-8'))
     #r_response = temp['choices'][0]['message']['content']
+    logging.info(str(temp))
     return jsonify({'response': temp})
 
 if __name__ == "__main__":
