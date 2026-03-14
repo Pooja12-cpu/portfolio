@@ -7,6 +7,7 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__, template_folder='templates')
 api_key = os.environ.get('MY_API_KEY')
+print(api_key)
 
 @app.route("/")
 def index():    
