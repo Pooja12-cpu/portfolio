@@ -42,10 +42,18 @@ def get_response():
       })
     )
     temp = json.loads(response.content.decode('utf-8'))
-    #r_response = temp['choices'][0]['message']['content']
+    r_response = temp['choices'][0]['message']['content']
     logging.debug(str(temp))
-    #return jsonify({'response': r_response})
-    return jsonify(temp)
+    if 'error' in temp:
+        print("OpenRouter error:", temp['error'])  # shows in Vercel logs
+        return jsonify({"response": f"API Error: {temp['error'].get('message', 'Unknown error')}"})
+
+    if 'choices' not in temp:
+        print("Unexpected response structure:", temp)  # shows in Vercel logs
+        return jsonify({"response": "Unexpected response: " + str(temp)})
+
+    return jsonify({'response': r_response})
+    #return jsonify(temp)
 
 if __name__ == "__main__":
 
