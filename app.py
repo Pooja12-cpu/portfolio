@@ -43,7 +43,7 @@ def get_response():
     )
     temp = json.loads(response.content.decode('utf-8'))
     #r_response = temp['choices'][0]['message']['content']
-    logging.info(str(temp))
+    logging.debug(str(temp))
     return jsonify({'response': temp})
 
 if __name__ == "__main__":
