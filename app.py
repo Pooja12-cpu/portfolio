@@ -7,7 +7,7 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__, template_folder='templates')
 api_key = os.environ.get('MY_API_KEY')
-print(api_key)
+#print(api_key)
 
 @app.route("/")
 def index():    
@@ -46,7 +46,7 @@ def get_response():
     #r_response = temp['choices'][0]['message']['content']
     logging.debug(str(temp))
     if 'error' in temp:
-        print("OpenRouter error:", temp['error'])  # shows in Vercel logs
+        print("OpenRouter error:", temp['error'], api_key)  # shows in Vercel logs
         return jsonify({"response": f"API Error: {temp['error'].get('message', 'Unknown error')}"})
 
     if 'choices' not in temp:
