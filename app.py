@@ -55,6 +55,14 @@ def get_response():
 
     return jsonify({'response': r_response})
     #return jsonify(temp)
+@app.route("/debug_env")
+def debug_env():
+    key = os.environ.get('MY_API_KEY')
+    return jsonify({
+        "key_exists": key is not None,
+        "key_length": len(key) if key else 0,
+        "key_preview": key[:6] + "..." if key else "NOT FOUND"
+    })
 
 if __name__ == "__main__":
 
