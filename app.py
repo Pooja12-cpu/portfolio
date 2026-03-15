@@ -43,7 +43,7 @@ def get_response():
       })
     )
     temp = json.loads(response.content.decode('utf-8'))
-    #r_response = temp['choices'][0]['message']['content']
+    r_response = temp['choices'][0]['message']['content']
     logging.debug(str(temp))
     if 'error' in temp:
         print("OpenRouter error:", temp['error'], api_key)  # shows in Vercel logs
