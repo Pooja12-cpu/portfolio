@@ -22,7 +22,7 @@ def get_response():
         "Authorization": "Bearer "+ api_key,
       },
       data=json.dumps({
-        "model": "arcee-ai/trinity-large-preview:free", # Optional
+        "model": "baidu/qianfan-ocr-fast:free", # Optional
         "messages": [
           {
             "role": "user",
