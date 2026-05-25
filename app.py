@@ -22,7 +22,7 @@ def get_response():
         "Authorization": "Bearer "+ api_key,
       },
       data=json.dumps({
-        "model": "nvidia/nemotron-3-super-120b-a12b:free", # Optional
+        "model": "openrouter/free", # Optional
         "messages": [
           {
             "role": "user",
